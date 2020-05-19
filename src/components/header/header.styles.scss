@@ -1,0 +1,33 @@
+.header {
+  display: flex;
+  padding: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  height: 8rem;
+  background-color: #009975;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 500;
+
+  &__logo {
+    display: flex;
+    align-items: center;
+
+    span {
+      color: white;
+      font-size: 2rem;
+    }
+    svg {
+      height: 6rem;
+      width: 6rem;
+    }
+  }
+
+  &__logout {
+    color: white;
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+}

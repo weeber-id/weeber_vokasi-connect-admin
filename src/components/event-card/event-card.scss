@@ -1,0 +1,66 @@
+.event-card {
+  background-color: #fff;
+  border-radius: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+
+  &__img-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  &__title {
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: #aaa;
+    text-align: center;
+  }
+
+  &__img {
+    width: 15rem;
+    height: 15rem;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    background-color: #ccc;
+    margin-bottom: 2rem;
+  }
+
+  &__cta {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+.delete {
+  width: 30rem;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+  &__message {
+    display: block;
+    padding: 3rem;
+    text-align: center;
+    font-weight: 700;
+    color: #aaa;
+    font-size: 2rem;
+  }
+}
+
+.dialog-delete {
+  .MuiPaper-rounded {
+    border-radius: 2rem;
+  }
+}
+
+.dialog-edit {
+  .MuiDialog-paperWidthSm {
+    max-width: 100%;
+  }
+}

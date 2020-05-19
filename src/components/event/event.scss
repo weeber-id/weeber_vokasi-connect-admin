@@ -1,0 +1,36 @@
+.event {
+  .loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(black, 0.35);
+    z-index: 1500;
+    .loop {
+      position: absolute;
+      z-index: 1501;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #fff;
+      padding: 4rem;
+      border-radius: 1rem;
+
+      span {
+        margin-top: 2rem;
+      }
+    }
+  }
+
+  &__cards {
+    margin-top: 4rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(30rem, 1fr);
+    grid-gap: 4rem;
+  }
+}

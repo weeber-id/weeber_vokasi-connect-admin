@@ -1,0 +1,12 @@
+@import './sass/base.scss';
+@import './components/header/header.styles.scss';
+@import './components/sidebar/sidebar.styles.scss';
+
+.wrapper {
+  margin-left: 24rem;
+  margin-top: 8rem;
+  padding: 4rem;
+  background: #eee;
+  height: 100%;
+  min-height: 100vh;
+}

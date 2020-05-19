@@ -1,0 +1,25 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  box-sizing: border-box;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.7;
+  font-family: 'Muli', sans-serif;
+}
+
+td,
+th,
+tr {
+  font-size: 1.2rem !important;
+}

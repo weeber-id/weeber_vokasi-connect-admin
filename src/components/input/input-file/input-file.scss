@@ -1,0 +1,76 @@
+.input-file {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 0;
+  width: 0;
+
+  &:required:focus ~ p {
+    opacity: 1;
+    z-index: 100;
+    transition: opacity 0.4s;
+  }
+
+  &__error {
+    position: absolute;
+    top: 4rem;
+    left: 0;
+    display: inline-block;
+    color: #e01243;
+    background-color: #fff;
+    box-shadow: 0 0.5rem 1rem rgba(black, 0.15);
+    padding: 1rem 2rem;
+    z-index: 0;
+    border-radius: 1rem;
+    opacity: 0;
+
+    &::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 7px solid white;
+      position: absolute;
+      top: -0.5rem;
+      left: 4rem;
+    }
+  }
+
+  &__container {
+    position: relative;
+    background-color: #eee;
+    border-top-left-radius: 0.6rem;
+    border-top-right-radius: 0.6rem;
+    height: 5rem;
+    border-bottom: 1px solid #bbb;
+
+    span {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #aaa;
+      left: 2rem;
+    }
+  }
+
+  &__label {
+    display: inline-block;
+    position: absolute;
+    z-index: 100;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #009975 !important;
+    font-size: 1.4rem;
+    color: white;
+    padding: 0.5rem 2rem;
+    border-radius: 0.6rem;
+    cursor: pointer;
+
+    &:hover {
+      color: #009975;
+      background-color: #048869 !important;
+    }
+  }
+}
