@@ -1,0 +1,60 @@
+.artikel-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  height: 75%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  padding: 3rem 0;
+
+  &__description {
+    font-size: 3rem;
+  }
+
+  &__textarea {
+    width: 80%;
+    height: 50rem;
+    margin: 0 auto;
+    padding-bottom: 4.5rem;
+  }
+
+  &__title {
+    width: 80%;
+    margin-bottom: 2rem !important;
+
+    input,
+    label {
+      font-size: 1.6rem;
+    }
+  }
+
+  &__btn {
+    margin-top: 2rem !important;
+    background: #009975 !important;
+
+    &:hover {
+      background: darken(#009975, 7%) !important;
+    }
+    span {
+      font-size: 1.6rem;
+      padding: 0.5rem 1rem;
+      color: white;
+    }
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background-color: rgba(black, 0.35);
+}

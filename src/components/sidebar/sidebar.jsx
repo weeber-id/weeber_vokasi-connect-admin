@@ -1,8 +1,11 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { NavLink } from 'react-router-dom';
 
 const SideBar = () => {
+  const { pathname } = useLocation();
+  if (pathname === '/login') return null;
   return (
     <div className="sidebar">
       <span className="sidebar__item">

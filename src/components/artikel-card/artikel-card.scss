@@ -1,0 +1,58 @@
+.artikel-card {
+  background-color: #fff;
+  border-radius: 1rem;
+  overflow: hidden;
+
+  &__thumbnail {
+    height: 15rem;
+    background-color: #ccc;
+  }
+
+  &__img {
+    height: 15rem;
+    width: auto;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  &__description {
+    height: 13rem;
+    padding: 2rem;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 5;
+      background: linear-gradient(180deg, transparent 50%, rgba(white, 1));
+    }
+  }
+
+  &__title {
+    color: #8b8b8c;
+  }
+
+  &__cta {
+    display: flex;
+    align-items: center;
+
+    button {
+      flex: 1;
+      font-size: 1.8rem;
+      border-radius: 0;
+      font-weight: 700;
+      text-transform: capitalize;
+      height: 5rem;
+
+      &:last-child {
+        color: #e01243;
+      }
+    }
+  }
+}

@@ -45,7 +45,7 @@ const EventPage = () => {
   const [reRender, setRender] = useState(false);
   const [contentLoading, setContentLoading] = useState(false);
 
-  const urlServer = 'http://35.240.223.151:8003/';
+  const urlServer = 'http://35.240.223.151:8003';
 
   useEffect(() => {
     setContentLoading(true);

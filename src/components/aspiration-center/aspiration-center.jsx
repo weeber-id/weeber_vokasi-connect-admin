@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import Cookies from 'js-cookie';
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -14,8 +16,13 @@ const AspirationCenter = () => {
 
   useEffect(() => {
     const url = 'http://35.240.223.151:8003';
+    const headers = new Headers();
 
-    fetch(`${url}/aspirations`)
+    headers.append('Authorization', `Bearer ${Cookies.get('access_token')}`);
+
+    fetch(`${url}/aspirations`, {
+      headers: headers
+    })
       .then((res) => res.json())
       .then((data) => {
         setState(data.data);
@@ -51,7 +58,7 @@ const AspirationCenter = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {state.map((row) => (
+            {state?.map((row) => (
               <TableRow key={row.name}>
                 <TableCell component="th" scope="row">
                   {row.nama}

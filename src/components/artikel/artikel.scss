@@ -1,0 +1,37 @@
+.artikel {
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 26.9rem);
+    grid-auto-rows: 1fr;
+    grid-gap: 4rem;
+  }
+
+  &__new {
+    background-color: #fff;
+    margin-bottom: 4rem;
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    & > span {
+      font-weight: 700;
+      color: #8b8b8c;
+      font-size: 1.8rem;
+    }
+
+    button {
+      font-size: 1.6rem;
+      background-color: #009975;
+      color: white;
+      font-weight: 700;
+      text-transform: capitalize;
+      width: 15rem;
+
+      &:hover {
+        background-color: darken(#009975, 7%);
+      }
+    }
+  }
+}
