@@ -9,14 +9,15 @@ const InputForm = ({
   placeholder = 'Upload your file...',
   value = '',
   link = '',
-  required
+  required,
+  style
 }) => {
   if (link.length > 80) {
     link = link.slice(0, 79) + '...';
   }
 
   return (
-    <div className="input-file__container">
+    <div style={style} className="input-file__container">
       <input
         required={required}
         onChange={onChange}

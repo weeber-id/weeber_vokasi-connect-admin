@@ -6,6 +6,7 @@ import { InputFile } from '../input';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
+import DeleteMessage from '../delete-message/delete-message';
 
 import './event-card.scss';
 
@@ -14,23 +15,14 @@ const useStyle = makeStyles((theme) => ({
     color: '#E01243',
     fontSize: '1.6rem',
     flex: 1,
-    height: '5rem'
+    height: '5rem',
+    fontWeight: 700
   },
   edit: {
     fontSize: '1.6rem',
     flex: 1,
-    borderRadius: 0
-  },
-  hapus: {
-    flex: 1,
-    height: '5rem',
-    color: 'white',
-    background: '#E01243',
-    fontSize: '1.6rem',
     borderRadius: 0,
-    '&:hover': {
-      background: 'rgb(202, 11, 56)'
-    }
+    fontWeight: 700
   }
 }));
 
@@ -157,26 +149,13 @@ const EventCard = ({
 
   return (
     <>
-      <Dialog className="dialog-delete" onClose={handleClose} open={open}>
-        <div className="delete">
-          <span className="delete__message">
-            Apakah kamu yakin ingin menghapus event ini?
-          </span>
-          <div className="event-card__cta">
-            <Button onClick={handleClose} className={classes.edit}>
-              Cancel
-            </Button>
-            <Button
-              onClick={() => {
-                handleDelete(id);
-              }}
-              className={classes.hapus}
-            >
-              Hapus
-            </Button>
-          </div>
-        </div>
-      </Dialog>
+      <DeleteMessage
+        message="Apakah kamu yakin ingin menghapus event ini?"
+        open={open}
+        onClose={setOpen}
+        onCancel={handleClose}
+        onDelete={handleDelete}
+      />
       <Dialog
         className="dialog-edit"
         open={edit}

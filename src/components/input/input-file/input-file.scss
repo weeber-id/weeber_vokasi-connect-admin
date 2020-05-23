@@ -39,17 +39,17 @@
 
   &__container {
     position: relative;
-    background-color: #eee;
+    background: rgba(black, 0.09);
     border-top-left-radius: 0.6rem;
     border-top-right-radius: 0.6rem;
-    height: 5rem;
+    min-height: 5rem;
     border-bottom: 1px solid #bbb;
 
     span {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      color: #aaa;
+      color: rgba(black, 0.54);
       left: 2rem;
     }
   }

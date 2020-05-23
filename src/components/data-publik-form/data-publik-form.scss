@@ -1,0 +1,30 @@
+.data-publik-form {
+  background-color: white;
+  padding: 4rem;
+  border-radius: 1rem;
+  margin-bottom: 4rem;
+
+  &__form {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 2rem 0;
+    margin: 2rem 0;
+  }
+  .MuiInputLabel-formControl {
+    transform: translate(12px, 20px) scale(1);
+  }
+
+  .MuiInputLabel-shrink {
+    transform: translate(0, 1.5px) scale(0.75);
+
+    &.label-cuk {
+      transform: translate(12px, 8.5px) scale(0.75);
+    }
+  }
+}
+
+.heading-secondary {
+  font-weight: 700;
+  color: #8b8b8c;
+  font-size: 1.8rem;
+}

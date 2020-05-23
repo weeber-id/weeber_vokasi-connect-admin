@@ -1,0 +1,24 @@
+.prestasi-form {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  grid-gap: 2rem;
+  margin: 2rem 0;
+
+  &__container {
+    background: white;
+    padding: 4rem;
+    border-radius: 1rem;
+    margin-bottom: 4rem;
+  }
+
+  & > * {
+    &:nth-child(3),
+    &:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+}
+
+li {
+  font-size: 1.6rem !important;
+}

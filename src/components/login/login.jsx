@@ -12,13 +12,16 @@ import './login.scss';
 
 const Login = () => {
   const urlServer = 'http://35.240.223.151:8003/';
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     const cookie = Cookies.get('access_token');
+    console.log(cookie);
+
     if (cookie) {
       history.push('/aspiration-center');
     }
-  });
+  }, [redirect]);
 
   const history = useHistory();
 
@@ -75,6 +78,7 @@ const Login = () => {
       .then((data) => {
         console.log(data);
         Cookies.set('access_token', data.access_token);
+        setRedirect(!redirect);
         // history.push('/aspiration-center');
         // Cookies.set('foo', 'bar');
       })

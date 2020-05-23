@@ -58,8 +58,8 @@ const AspirationCenter = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {state?.map((row) => (
-              <TableRow key={row.name}>
+            {state?.map((row, i) => (
+              <TableRow key={`aspirasi-${row.name}-${i}`}>
                 <TableCell component="th" scope="row">
                   {row.nama}
                 </TableCell>

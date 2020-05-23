@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     background: '#009975',
     color: 'white',
     width: '24rem',
+    fontWeight: 700,
     '&:hover': {
       background: '#048869'
     }
@@ -143,7 +144,7 @@ const EventPage = () => {
       ) : null}
 
       <form onSubmit={handleSubmit} className={classes.root}>
-        <h3>Add Event</h3>
+        <h2 className="heading-secondary">Tambah Event</h2>
         <TextField
           required
           name="title"
