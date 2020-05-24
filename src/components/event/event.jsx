@@ -153,6 +153,7 @@ const EventPage = () => {
           variant="filled"
           onChange={handleChange}
           value={state.title}
+          placeholder="UI Innovation Battlefield"
         />
         <InputFile
           required={link.length > 0 ? false : true}
@@ -169,6 +170,7 @@ const EventPage = () => {
           variant="filled"
           onChange={handleChange}
           value={state.url}
+          placeholder="https://weeber.id"
         />
         <div
           style={{

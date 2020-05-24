@@ -5,8 +5,35 @@ import Button from '@material-ui/core/Button';
 import './artikel-card.scss';
 import DeleteMessage from '../delete-message/delete-message';
 
-const ArtikelCard = ({ title, id, thumbnail }) => {
+const ArtikelCard = ({
+  title,
+  id,
+  thumbnail,
+  setLoading,
+  setRerender,
+  reRender
+}) => {
+  const urlServer = 'http://35.240.223.151:8003';
+
   const [open, setOpen] = useState(false);
+
+  const handleDelete = (id) => {
+    setLoading(true);
+    fetch(`${urlServer}/article?id=${id}`, {
+      method: 'DELETE'
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setLoading(false);
+        setRerender(!reRender);
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        setRerender(!reRender);
+      });
+  };
 
   return (
     <>
@@ -15,6 +42,9 @@ const ArtikelCard = ({ title, id, thumbnail }) => {
         open={open}
         onClose={setOpen}
         onCancel={() => setOpen(false)}
+        onDelete={() => {
+          handleDelete(id);
+        }}
       />
       <div className="artikel-card">
         <div className="artikel-card__thumbnail">

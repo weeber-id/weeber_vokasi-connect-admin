@@ -39,20 +39,31 @@ const useStyle = makeStyles({
   }
 });
 
-const DataPublikForm = () => {
+const DataPublikForm = ({
+  kategori,
+  setKategori,
+  onSubmit,
+  onChange,
+  value
+}) => {
   const classes = useStyle();
   return (
     <div className="data-publik-form">
       <h2 className="heading-secondary">Tambah Data Publik</h2>
-      <form className="data-publik-form__form">
+      <form onSubmit={onSubmit} className="data-publik-form__form">
         <FormControl className={classes.select}>
           <InputLabel className="label-cuk" id="data-publik-form-label">
             Pilih Kategori
           </InputLabel>
           <Select
+            placeholder="Buletin"
             variant="filled"
             id="data-publik-form"
             labelId="data-publik-form-label"
+            value={kategori}
+            onChange={(e) => {
+              setKategori(e.target.value);
+            }}
           >
             <MenuItem value="1">Data Riset</MenuItem>
             <MenuItem value="2">Buletin</MenuItem>
@@ -61,25 +72,28 @@ const DataPublikForm = () => {
           </Select>
         </FormControl>
         <TextField
-          label="Nama"
-          placeholder="Nama"
+          label="Judul"
+          placeholder="Kajian Maritim Indonesia Emas 2045"
           className={classes.textField}
           variant="filled"
+          name="judul"
+          value={value.judul}
+          onChange={onChange}
         />
-        <TextField
-          label="Pengunggah"
-          placeholder="Pengunggah"
-          className={classes.textField}
-          variant="filled"
-        />
+
         <TextField
           label="Link"
-          placeholder="Link"
+          placeholder="https://drive.google.com/al97dkjaXmkJiPPkl"
           className={classes.textField}
           variant="filled"
+          name="link"
+          value={value.link}
+          onChange={onChange}
         />
+        <Button type="submit" className={classes.button}>
+          Upload
+        </Button>
       </form>
-      <Button className={classes.button}>Upload</Button>
     </div>
   );
 };

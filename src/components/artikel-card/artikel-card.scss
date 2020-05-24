@@ -6,11 +6,12 @@
   &__thumbnail {
     height: 15rem;
     background-color: #ccc;
+    overflow: hidden;
   }
 
   &__img {
-    height: 15rem;
-    width: auto;
+    height: auto;
+    width: 26.9rem;
     object-fit: cover;
     object-position: center;
   }

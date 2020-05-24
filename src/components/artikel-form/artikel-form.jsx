@@ -8,9 +8,20 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { InputFile } from '../input';
 
-const ArtikelForm = ({ toggleClose }) => {
-  const [value, setValue] = useState('');
-
+const ArtikelForm = ({
+  toggleClose,
+  onSubmit,
+  onChange,
+  titleName,
+  titleValue,
+  onFileChange,
+  onArtikelChange,
+  artikelValue,
+  fileId,
+  fileName,
+  authorName,
+  authorValue
+}) => {
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
@@ -43,25 +54,44 @@ const ArtikelForm = ({ toggleClose }) => {
   return (
     <>
       <div onClick={() => toggleClose(false)} className="overlay" />
-      <div className="artikel-form">
+      <form onSubmit={(onSubmit, onChange)} className="artikel-form">
         <h2 className="artikel-form__description">Buat Artikel</h2>
         <TextField
+          onChange={onChange}
           variant="filled"
           className="artikel-form__title"
           label="Title"
           placeholder="Masukkan Judul"
+          name={titleName}
+          value={titleValue}
         />
-        <InputFile style={{ width: '80%', marginBottom: '2rem' }} />
+        <TextField
+          onChange={onChange}
+          variant="filled"
+          className="artikel-form__title"
+          label="Author"
+          placeholder="John Doe"
+          name={authorName}
+          value={authorValue}
+        />
+        <InputFile
+          onChange={onFileChange}
+          id={fileId}
+          link={fileName}
+          style={{ width: '80%', marginBottom: '2rem' }}
+        />
         <ReactQuill
           className="artikel-form__textarea"
           modules={modules}
           formats={formats}
           theme="snow"
-          value={value}
-          onChange={setValue}
+          value={artikelValue}
+          onChange={onArtikelChange}
         />
-        <Button className="artikel-form__btn">Buat Artikel</Button>
-      </div>
+        <Button onClick={onSubmit} className="artikel-form__btn">
+          Buat Artikel
+        </Button>
+      </form>
     </>
   );
 };

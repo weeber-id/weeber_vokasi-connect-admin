@@ -14,6 +14,13 @@ import DeleteMessage from '../delete-message/delete-message';
 const RuangPrestasi = () => {
   const [prestasi, setPrestasi] = useState([]);
   const [open, setOpen] = useState(false);
+  const [state, setState] = useState({
+    nama: '',
+    angkatan: '',
+    prodi: '',
+    prestasi: ''
+  });
+  const [reRender, setRerender] = useState(false);
 
   const urlServer = 'http://35.240.223.151:8003';
   useEffect(() => {
@@ -25,7 +32,7 @@ const RuangPrestasi = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [reRender]);
 
   const useStyles = makeStyles({
     table: {
@@ -46,9 +53,75 @@ const RuangPrestasi = () => {
 
   const classes = useStyles();
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setState({
+      ...state,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { nama, angkatan, prodi, prestasi } = state;
+
+    const body = {
+      nama,
+      angkatan,
+      jurusan: prodi,
+      prestasi
+    };
+
+    fetch(`${urlServer}/ruang-prestasi`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setRerender(!reRender);
+      })
+      .catch((err) => {
+        console.log(err);
+        setRerender(!reRender);
+      });
+
+    setState({
+      nama: '',
+      angkatan: '',
+      prodi: '',
+      prestasi: ''
+    });
+  };
+
+  const handleDelete = (id) => {
+    fetch(`${urlServer}/ruang-prestasi?id=${id}`, {
+      method: 'DELETE'
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setRerender(!reRender);
+        setOpen(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setRerender(!reRender);
+        setOpen(false);
+      });
+  };
+
   return (
     <div className="ruang-prestasi">
-      <PrestasiForm />
+      <PrestasiForm
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+        value={state}
+      />
       <TableContainer component={Paper}>
         <Table
           className={classes.table}
@@ -82,6 +155,7 @@ const RuangPrestasi = () => {
                   open={open}
                   onClose={setOpen}
                   onCancel={() => setOpen(false)}
+                  onDelete={() => handleDelete(row.id)}
                 />
               </TableRow>
             ))}

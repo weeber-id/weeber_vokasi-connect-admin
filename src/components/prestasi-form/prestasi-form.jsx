@@ -24,19 +24,49 @@ const useStyle = makeStyles({
   }
 });
 
-const PrestasiForm = () => {
+const PrestasiForm = ({ onChange, value, onSubmit }) => {
   const classes = useStyle();
 
   return (
-    <form className="prestasi-form__container">
+    <form onSubmit={onSubmit} className="prestasi-form__container">
       <h2 className="heading-secondary">Tambah Prestasi</h2>
       <div className={`prestasi-form ${classes.textField}`}>
-        <TextField variant="filled" label="Nama" placeholder="Nama" />
-        <TextField variant="filled" label="Angkatan" placeholder="Angkatan" />
-        <TextField variant="filled" label="Prodi" placeholder="Prodi" />
-        <TextField variant="filled" label="Prestasi" placeholder="Prestasi" />
+        <TextField
+          name="nama"
+          variant="filled"
+          label="Nama"
+          placeholder="Sergio Marquina"
+          onChange={onChange}
+          value={value.nama}
+        />
+        <TextField
+          name="angkatan"
+          variant="filled"
+          label="Angkatan"
+          placeholder="2019"
+          onChange={onChange}
+          value={value.angkatan}
+        />
+        <TextField
+          name="prodi"
+          variant="filled"
+          label="Prodi"
+          placeholder="Heist Engineering"
+          onChange={onChange}
+          value={value.prodi}
+        />
+        <TextField
+          name="prestasi"
+          variant="filled"
+          label="Prestasi"
+          placeholder="Merampok Royal Mint of Spain"
+          onChange={onChange}
+          value={value.prestasi}
+        />
       </div>
-      <Button className={classes.button}>Upload</Button>
+      <Button type="submit" className={classes.button}>
+        Upload
+      </Button>
     </form>
   );
 };

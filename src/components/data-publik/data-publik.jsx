@@ -13,19 +13,38 @@ import DeleteMessage from '../delete-message/delete-message';
 
 const DataPublik = () => {
   const [dataRiset, setDataRiset] = useState([]);
+  const [buletin, setBuletin] = useState([]);
+  const [kajian, setKajian] = useState([]);
+  const [uu, setUU] = useState([]);
   const [open, setOpen] = useState(false);
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [open3, setOpen3] = useState(false);
   const urlServer = 'http://35.240.223.151:8003';
+  const [kategori, setKategori] = useState('');
+  const [state, setState] = useState({
+    judul: '',
+    link: ''
+  });
+  const [reRender, setRerender] = useState(false);
 
-  useEffect(() => {
-    fetch(`${urlServer}/portal-data?category_id=1`)
+  const portalData = (id, callback) => {
+    fetch(`${urlServer}/portal-data?category_id=${id}`)
       .then((res) => res.json())
       .then((data) => {
-        setDataRiset(data.data);
+        callback(data.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    portalData(1, setDataRiset);
+    portalData(2, setBuletin);
+    portalData(3, setKajian);
+    portalData(4, setUU);
+  }, [reRender]);
 
   const useStyles = makeStyles({
     table: {
@@ -44,10 +63,95 @@ const DataPublik = () => {
     }
   });
 
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+
+    setState({
+      ...state,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    function formatDate(date) {
+      var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2) month = '0' + month;
+      if (day.length < 2) day = '0' + day;
+
+      return [year, month, day].join('-');
+    }
+
+    const body = {
+      title: state.judul,
+      link: state.link,
+      tanggal: formatDate(new Date(Date.now())),
+      category_id: kategori
+    };
+
+    console.log(kategori);
+
+    fetch(`${urlServer}/portal-data`, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setRerender(!reRender);
+      })
+      .catch((err) => {
+        console.log(err);
+        setRerender(!reRender);
+      });
+
+    setState({
+      judul: '',
+      link: ''
+    });
+  };
+
+  const handleDelete = (id) => {
+    fetch(`${urlServer}/portal-data?id=${id}`, {
+      method: 'DELETE'
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setRerender(!reRender);
+        setOpen(false);
+        setOpen1(false);
+        setOpen2(false);
+        setOpen3(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setRerender(!reRender);
+        setOpen(false);
+        setOpen1(false);
+        setOpen2(false);
+        setOpen3(false);
+      });
+  };
+
   const classes = useStyles();
   return (
     <div className="data-publik">
-      <DataPublikForm />
+      <DataPublikForm
+        onChange={handleChange}
+        kategori={kategori}
+        setKategori={setKategori}
+        value={state}
+        onSubmit={handleSubmit}
+      />
       <div className="data-publik__data-riset">
         <h3>Data Riset</h3>
         <TableContainer component={Paper}>
@@ -81,6 +185,10 @@ const DataPublik = () => {
                     open={open}
                     onClose={setOpen}
                     onCancel={() => setOpen(false)}
+                    onDelete={() => {
+                      handleDelete(row.id);
+                      console.log(row.id);
+                    }}
                   />
                 </TableRow>
               ))}
@@ -106,7 +214,7 @@ const DataPublik = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {dataRiset?.map((row, i) => (
+              {buletin?.map((row, i) => (
                 <TableRow key={`prestasi-${row.name}-${i}`}>
                   <TableCell component="th" scope="row">
                     {row.title}
@@ -115,13 +223,17 @@ const DataPublik = () => {
                   <TableCell align="right">{row.link}</TableCell>
                   <TableCell className={classes.action} align="right">
                     <span>Edit</span>
-                    <span onClick={() => setOpen(true)}>Delete</span>
+                    <span onClick={() => setOpen1(true)}>Delete</span>
                   </TableCell>
                   <DeleteMessage
                     message="Apakah kamu yakin ingin menghapus prestasi ini?"
-                    open={open}
-                    onClose={setOpen}
+                    open={open1}
+                    onClose={setOpen1}
                     onCancel={() => setOpen(false)}
+                    onDelete={() => {
+                      handleDelete(row.id);
+                      console.log(row.id);
+                    }}
                   />
                 </TableRow>
               ))}
@@ -147,7 +259,7 @@ const DataPublik = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {dataRiset?.map((row, i) => (
+              {kajian?.map((row, i) => (
                 <TableRow key={`prestasi-${row.name}-${i}`}>
                   <TableCell component="th" scope="row">
                     {row.title}
@@ -156,13 +268,17 @@ const DataPublik = () => {
                   <TableCell align="right">{row.link}</TableCell>
                   <TableCell className={classes.action} align="right">
                     <span>Edit</span>
-                    <span onClick={() => setOpen(true)}>Delete</span>
+                    <span onClick={() => setOpen2(true)}>Delete</span>
                   </TableCell>
                   <DeleteMessage
                     message="Apakah kamu yakin ingin menghapus prestasi ini?"
-                    open={open}
-                    onClose={setOpen}
-                    onCancel={() => setOpen(false)}
+                    open={open2}
+                    onClose={setOpen2}
+                    onCancel={() => setOpen2(false)}
+                    onDelete={() => {
+                      handleDelete(row.id);
+                      console.log(row.id);
+                    }}
                   />
                 </TableRow>
               ))}
@@ -188,7 +304,7 @@ const DataPublik = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {dataRiset?.map((row, i) => (
+              {uu?.map((row, i) => (
                 <TableRow key={`prestasi-${row.name}-${i}`}>
                   <TableCell component="th" scope="row">
                     {row.title}
@@ -197,13 +313,17 @@ const DataPublik = () => {
                   <TableCell align="right">{row.link}</TableCell>
                   <TableCell className={classes.action} align="right">
                     <span>Edit</span>
-                    <span onClick={() => setOpen(true)}>Delete</span>
+                    <span onClick={() => setOpen3(true)}>Delete</span>
                   </TableCell>
                   <DeleteMessage
                     message="Apakah kamu yakin ingin menghapus prestasi ini?"
-                    open={open}
-                    onClose={setOpen}
-                    onCancel={() => setOpen(false)}
+                    open={open3}
+                    onClose={setOpen3}
+                    onCancel={() => setOpen3(false)}
+                    onDelete={() => {
+                      handleDelete(row.id);
+                      console.log(row.id);
+                    }}
                   />
                 </TableRow>
               ))}
