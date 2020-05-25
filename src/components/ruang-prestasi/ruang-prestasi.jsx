@@ -22,7 +22,7 @@ const RuangPrestasi = () => {
   });
   const [reRender, setRerender] = useState(false);
 
-  const urlServer = 'http://35.240.223.151:8003';
+  const urlServer = 'https://api.vokasiconnect.id';
   useEffect(() => {
     fetch(`${urlServer}/all-ruang-prestasi`)
       .then((res) => res.json())

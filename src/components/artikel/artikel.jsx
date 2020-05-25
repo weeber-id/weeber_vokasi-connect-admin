@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import { CircularProgress } from '@material-ui/core';
 
 const Artikel = () => {
-  const urlServer = 'http://35.240.223.151:8003';
+  const urlServer = 'https://api.vokasiconnect.id';
   const [artikels, setArtikels] = useState([]);
   const [state, setState] = useState({
     title: '',

@@ -13,7 +13,7 @@ const ArtikelCard = ({
   setRerender,
   reRender
 }) => {
-  const urlServer = 'http://35.240.223.151:8003';
+  const urlServer = 'https://api.vokasiconnect.id';
 
   const [open, setOpen] = useState(false);
 

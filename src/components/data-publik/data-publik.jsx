@@ -20,7 +20,7 @@ const DataPublik = () => {
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [open3, setOpen3] = useState(false);
-  const urlServer = 'http://35.240.223.151:8003';
+  const urlServer = 'https://api.vokasiconnect.id';
   const [kategori, setKategori] = useState('');
   const [state, setState] = useState({
     judul: '',

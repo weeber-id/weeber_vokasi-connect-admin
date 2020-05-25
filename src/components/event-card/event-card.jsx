@@ -45,7 +45,7 @@ const EventCard = ({
   const [link, setLink] = useState('');
   const [fileName, setFileName] = useState('');
 
-  const urlServer = 'http://35.240.223.151:8003/';
+  const urlServer = 'https://api.vokasiconnect.id/';
 
   useEffect(() => {
     setState({

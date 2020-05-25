@@ -11,7 +11,7 @@ import { ReactComponent as Logo } from '../../assets/logo.svg';
 import './login.scss';
 
 const Login = () => {
-  const urlServer = 'http://35.240.223.151:8003/';
+  const urlServer = 'https://api.vokasiconnect.id/';
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {

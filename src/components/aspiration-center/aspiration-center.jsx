@@ -15,7 +15,7 @@ const AspirationCenter = () => {
   const [state, setState] = useState([]);
 
   useEffect(() => {
-    const url = 'http://35.240.223.151:8003';
+    const url = 'https://api.vokasiconnect.id';
     const headers = new Headers();
 
     headers.append('Authorization', `Bearer ${Cookies.get('access_token')}`);
