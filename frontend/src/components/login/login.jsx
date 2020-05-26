@@ -12,16 +12,14 @@ import './login.scss';
 
 const Login = () => {
   const urlServer = 'https://api.vokasiconnect.id/';
-  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     const cookie = Cookies.get('access_token');
-    console.log(cookie);
 
     if (cookie) {
       history.push('/aspiration-center');
     }
-  }, [redirect]);
+  }, []);
 
   const history = useHistory();
 
@@ -76,10 +74,14 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         Cookies.set('access_token', data.access_token);
-        setRedirect(!redirect);
-        // history.push('/aspiration-center');
+
+        if (data.message === 'Login success') {
+          history.push('/aspiration-center');
+        }
+
+        window.location.reload();
+
         // Cookies.set('foo', 'bar');
       })
       .catch((err) => {

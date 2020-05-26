@@ -45,7 +45,7 @@ const EventCard = ({
   const [link, setLink] = useState('');
   const [fileName, setFileName] = useState('');
 
-  const urlServer = 'https://api.vokasiconnect.id/';
+  const urlServer = 'https://api.vokasiconnect.id';
 
   useEffect(() => {
     setState({
@@ -154,7 +154,7 @@ const EventCard = ({
         open={open}
         onClose={setOpen}
         onCancel={handleClose}
-        onDelete={handleDelete}
+        onDelete={() => handleDelete(id)}
       />
       <Dialog
         className="dialog-edit"

@@ -11,6 +11,30 @@
   width: 100%;
   z-index: 500;
 
+  &__user {
+    color: white;
+    background-color: #03755b;
+    padding: 0.7rem 4rem;
+    border-radius: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    span {
+      line-height: 1.5;
+      text-align: center;
+
+      &:first-child {
+        font-weight: 700;
+      }
+
+      &:last-child {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
   &__logo {
     display: flex;
     align-items: center;

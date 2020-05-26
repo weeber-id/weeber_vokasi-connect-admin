@@ -1,0 +1,159 @@
+.account {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 3rem;
+  border-radius: 2rem;
+
+  &__username {
+    background-color: #009975;
+    font-size: 3rem;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+    padding: 2rem 0;
+    border-radius: 2rem;
+    margin-bottom: 2rem;
+    height: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__crud {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 2rem;
+  }
+
+  &__form-label {
+    font-weight: 700;
+    color: #8b8b8c;
+    align-self: flex-start;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    margin-left: -2rem;
+  }
+
+  &__crud-item {
+    text-align: center;
+    background-color: #dcdddd;
+    display: inline-block;
+    padding: 2rem 3rem;
+    border-radius: 1rem;
+    color: #8b8b8c;
+    font-weight: 700;
+    user-select: none;
+    cursor: pointer;
+
+    &--span {
+      grid-column: 1 / -1;
+    }
+    &:hover {
+      background-color: #c2c2c2;
+    }
+
+    &:last-child {
+      color: white;
+      background-color: #e01243;
+
+      &:hover {
+        background-color: #c50733;
+      }
+    }
+  }
+
+  @mixin crud($width, $height) {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    z-index: 200;
+    height: $height;
+    width: $width;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 3rem 5rem;
+    border-radius: 2rem;
+  }
+
+  @keyframes coba {
+    0% {
+      opacity: 0;
+      top: -100rem;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes reverseCoba {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      top: -100rem;
+      opacity: 0;
+    }
+  }
+
+  &__create {
+    @include crud(70rem, 23rem);
+    animation: coba 0.5s ease-out;
+
+    &.reverse {
+      animation: reverseCoba 0.72s ease;
+    }
+  }
+
+  &__edit-password {
+    @include crud(70rem, 28rem);
+    animation: coba 0.5s ease-out;
+  }
+
+  &__admin-lists {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 200;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    height: 50%;
+    border-radius: 1rem;
+    overflow-y: scroll;
+  }
+}
+
+@keyframes overlay {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes overlayReversed {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.overlay {
+  animation: overlay 0.7s ease;
+
+  &.reverse {
+    animation: overlayReversed 0.72s ease;
+  }
+}

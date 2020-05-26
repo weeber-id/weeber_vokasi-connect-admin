@@ -49,6 +49,15 @@ const SideBar = () => {
           Data Publik
         </NavLink>
       </span>
+      <span className="sidebar__item">
+        <NavLink
+          to="/account"
+          className="sidebar__link"
+          activeClassName="active"
+        >
+          Account Settings
+        </NavLink>
+      </span>
     </div>
   );
 };
