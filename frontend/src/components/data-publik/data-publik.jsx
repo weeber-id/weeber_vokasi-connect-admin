@@ -9,17 +9,14 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import DeleteMessage from '../delete-message/delete-message';
+import DataPublikCell from './data-publik-cell';
+import Loading from '../loading';
 
 const DataPublik = () => {
   const [dataRiset, setDataRiset] = useState([]);
   const [buletin, setBuletin] = useState([]);
   const [kajian, setKajian] = useState([]);
   const [uu, setUU] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [open1, setOpen1] = useState(false);
-  const [open2, setOpen2] = useState(false);
-  const [open3, setOpen3] = useState(false);
   const urlServer = 'https://api.vokasiconnect.id';
   const [kategori, setKategori] = useState('');
   const [state, setState] = useState({
@@ -27,6 +24,7 @@ const DataPublik = () => {
     link: ''
   });
   const [reRender, setRerender] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const portalData = (id, callback) => {
     fetch(`${urlServer}/portal-data?category_id=${id}`)
@@ -48,7 +46,8 @@ const DataPublik = () => {
 
   const useStyles = makeStyles({
     table: {
-      minWidth: 650
+      minWidth: 650,
+      '& td, & th': { width: '25%' }
     },
     action: {
       '& span': {
@@ -94,7 +93,7 @@ const DataPublik = () => {
       category_id: kategori
     };
 
-    console.log(kategori);
+    setLoading(true);
 
     fetch(`${urlServer}/portal-data`, {
       method: 'POST',
@@ -105,233 +104,187 @@ const DataPublik = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        alert(data.message);
+        setState({
+          judul: '',
+          link: ''
+        });
+        setKategori('');
+        setLoading(false);
         setRerender(!reRender);
       })
       .catch((err) => {
         console.log(err);
         setRerender(!reRender);
       });
-
-    setState({
-      judul: '',
-      link: ''
-    });
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id, callback) => {
+    setLoading(true);
     fetch(`${urlServer}/portal-data?id=${id}`, {
       method: 'DELETE'
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        alert(data.message);
+        setLoading(false);
+        callback();
         setRerender(!reRender);
-        setOpen(false);
-        setOpen1(false);
-        setOpen2(false);
-        setOpen3(false);
       })
       .catch((err) => {
         console.log(err);
         setRerender(!reRender);
-        setOpen(false);
-        setOpen1(false);
-        setOpen2(false);
-        setOpen3(false);
       });
   };
 
   const classes = useStyles();
   return (
-    <div className="data-publik">
-      <DataPublikForm
-        onChange={handleChange}
-        kategori={kategori}
-        setKategori={setKategori}
-        value={state}
-        onSubmit={handleSubmit}
-      />
-      <div className="data-publik__data-riset">
-        <h3>Data Riset</h3>
-        <TableContainer component={Paper}>
-          <Table
-            className={classes.table}
-            size="medium"
-            aria-label="a dense table"
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell>Judul</TableCell>
-                <TableCell align="right">Created At</TableCell>
-                <TableCell align="right">Link</TableCell>
-                <TableCell align="right">Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {dataRiset?.map((row, i) => (
-                <TableRow key={`prestasi-${row.name}-${i}`}>
-                  <TableCell component="th" scope="row">
-                    {row.title}
-                  </TableCell>
-                  <TableCell align="right">{row.tanggal}</TableCell>
-                  <TableCell align="right">{row.link}</TableCell>
-                  <TableCell className={classes.action} align="right">
-                    <span>Edit</span>
-                    <span onClick={() => setOpen(true)}>Delete</span>
-                  </TableCell>
-                  <DeleteMessage
-                    message="Apakah kamu yakin ingin menghapus prestasi ini?"
-                    open={open}
-                    onClose={setOpen}
-                    onCancel={() => setOpen(false)}
-                    onDelete={() => {
-                      handleDelete(row.id);
-                      console.log(row.id);
-                    }}
-                  />
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+    <>
+      {isLoading ? (
+        <Loading message="Processing your request, Please wait..." />
+      ) : null}
 
-      <div className="data-publik__data-riset">
-        <h3>Buletin</h3>
-        <TableContainer component={Paper}>
-          <Table
-            className={classes.table}
-            size="medium"
-            aria-label="a dense table"
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell>Judul</TableCell>
-                <TableCell align="right">Created At</TableCell>
-                <TableCell align="right">Link</TableCell>
-                <TableCell align="right">Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {buletin?.map((row, i) => (
-                <TableRow key={`prestasi-${row.name}-${i}`}>
-                  <TableCell component="th" scope="row">
-                    {row.title}
-                  </TableCell>
-                  <TableCell align="right">{row.tanggal}</TableCell>
-                  <TableCell align="right">{row.link}</TableCell>
-                  <TableCell className={classes.action} align="right">
-                    <span>Edit</span>
-                    <span onClick={() => setOpen1(true)}>Delete</span>
-                  </TableCell>
-                  <DeleteMessage
-                    message="Apakah kamu yakin ingin menghapus prestasi ini?"
-                    open={open1}
-                    onClose={setOpen1}
-                    onCancel={() => setOpen(false)}
-                    onDelete={() => {
-                      handleDelete(row.id);
-                      console.log(row.id);
-                    }}
-                  />
+      <div className="data-publik">
+        <DataPublikForm
+          onChange={handleChange}
+          kategori={kategori}
+          setKategori={setKategori}
+          value={state}
+          onSubmit={handleSubmit}
+        />
+        <div className="data-publik__data-riset">
+          <h3>Data Riset</h3>
+          <TableContainer component={Paper}>
+            <Table
+              className={classes.table}
+              size="medium"
+              aria-label="a dense table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell>Judul</TableCell>
+                  <TableCell align="right">Created At</TableCell>
+                  <TableCell align="right">Link</TableCell>
+                  <TableCell align="right">Action</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+              </TableHead>
+              <TableBody>
+                {dataRiset?.map((row, i) => (
+                  <DataPublikCell
+                    setLoading={setLoading}
+                    key={`data-riset-${row.id}`}
+                    {...row}
+                    classes={classes}
+                    handleDelete={handleDelete}
+                    reRender={reRender}
+                    setRerender={setRerender}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
 
-      <div className="data-publik__data-riset">
-        <h3>Kajian Strategis</h3>
-        <TableContainer component={Paper}>
-          <Table
-            className={classes.table}
-            size="medium"
-            aria-label="a dense table"
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell>Judul</TableCell>
-                <TableCell align="right">Created At</TableCell>
-                <TableCell align="right">Link</TableCell>
-                <TableCell align="right">Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {kajian?.map((row, i) => (
-                <TableRow key={`prestasi-${row.name}-${i}`}>
-                  <TableCell component="th" scope="row">
-                    {row.title}
-                  </TableCell>
-                  <TableCell align="right">{row.tanggal}</TableCell>
-                  <TableCell align="right">{row.link}</TableCell>
-                  <TableCell className={classes.action} align="right">
-                    <span>Edit</span>
-                    <span onClick={() => setOpen2(true)}>Delete</span>
-                  </TableCell>
-                  <DeleteMessage
-                    message="Apakah kamu yakin ingin menghapus prestasi ini?"
-                    open={open2}
-                    onClose={setOpen2}
-                    onCancel={() => setOpen2(false)}
-                    onDelete={() => {
-                      handleDelete(row.id);
-                      console.log(row.id);
-                    }}
-                  />
+        <div className="data-publik__data-riset">
+          <h3>Buletin</h3>
+          <TableContainer component={Paper}>
+            <Table
+              className={classes.table}
+              size="medium"
+              aria-label="a dense table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell>Judul</TableCell>
+                  <TableCell align="right">Created At</TableCell>
+                  <TableCell align="right">Link</TableCell>
+                  <TableCell align="right">Action</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+              </TableHead>
+              <TableBody>
+                {buletin?.map((row, i) => (
+                  <DataPublikCell
+                    setLoading={setLoading}
+                    key={`buletin-${row.id}`}
+                    {...row}
+                    classes={classes}
+                    handleDelete={handleDelete}
+                    reRender={reRender}
+                    setRerender={setRerender}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
 
-      <div className="data-publik__data-riset">
-        <h3>UU IKM Vokasi UI</h3>
-        <TableContainer component={Paper}>
-          <Table
-            className={classes.table}
-            size="medium"
-            aria-label="a dense table"
-          >
-            <TableHead>
-              <TableRow>
-                <TableCell>Judul</TableCell>
-                <TableCell align="right">Created At</TableCell>
-                <TableCell align="right">Link</TableCell>
-                <TableCell align="right">Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {uu?.map((row, i) => (
-                <TableRow key={`prestasi-${row.name}-${i}`}>
-                  <TableCell component="th" scope="row">
-                    {row.title}
-                  </TableCell>
-                  <TableCell align="right">{row.tanggal}</TableCell>
-                  <TableCell align="right">{row.link}</TableCell>
-                  <TableCell className={classes.action} align="right">
-                    <span>Edit</span>
-                    <span onClick={() => setOpen3(true)}>Delete</span>
-                  </TableCell>
-                  <DeleteMessage
-                    message="Apakah kamu yakin ingin menghapus prestasi ini?"
-                    open={open3}
-                    onClose={setOpen3}
-                    onCancel={() => setOpen3(false)}
-                    onDelete={() => {
-                      handleDelete(row.id);
-                      console.log(row.id);
-                    }}
-                  />
+        <div className="data-publik__data-riset">
+          <h3>Kajian Strategis</h3>
+          <TableContainer component={Paper}>
+            <Table
+              className={classes.table}
+              size="medium"
+              aria-label="a dense table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell>Judul</TableCell>
+                  <TableCell align="right">Created At</TableCell>
+                  <TableCell align="right">Link</TableCell>
+                  <TableCell align="right">Action</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+              </TableHead>
+              <TableBody>
+                {kajian?.map((row, i) => (
+                  <DataPublikCell
+                    setLoading={setLoading}
+                    key={`kajian-${row.id}`}
+                    {...row}
+                    classes={classes}
+                    handleDelete={handleDelete}
+                    reRender={reRender}
+                    setRerender={setRerender}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+
+        <div className="data-publik__data-riset">
+          <h3>UU IKM Vokasi UI</h3>
+          <TableContainer component={Paper}>
+            <Table
+              className={classes.table}
+              size="medium"
+              aria-label="a dense table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell>Judul</TableCell>
+                  <TableCell align="right">Created At</TableCell>
+                  <TableCell align="right">Link</TableCell>
+                  <TableCell align="right">Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {uu?.map((row, i) => (
+                  <DataPublikCell
+                    setLoading={setLoading}
+                    key={`uu-${row.id}`}
+                    {...row}
+                    classes={classes}
+                    handleDelete={handleDelete}
+                    reRender={reRender}
+                    setRerender={setRerender}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
