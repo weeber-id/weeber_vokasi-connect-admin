@@ -20,11 +20,13 @@ const ArtikelForm = ({
   fileId,
   fileName,
   authorName,
-  authorValue
+  authorValue,
+  buttonText = 'Buat Artikel'
 }) => {
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
+      [{ align: [] }],
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [
         { list: 'ordered' },
@@ -39,6 +41,7 @@ const ArtikelForm = ({
 
   const formats = [
     'header',
+    'align',
     'bold',
     'italic',
     'underline',
@@ -89,7 +92,7 @@ const ArtikelForm = ({
           onChange={onArtikelChange}
         />
         <Button onClick={onSubmit} className="artikel-form__btn">
-          Buat Artikel
+          {buttonText}
         </Button>
       </form>
     </>

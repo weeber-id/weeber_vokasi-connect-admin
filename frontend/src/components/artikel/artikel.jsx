@@ -109,14 +109,14 @@ const Artikel = () => {
       {create ? (
         <ArtikelForm
           onChange={handleChange}
-          titleValue={state.title}
           toggleClose={setCreate}
           onFileChange={handleFileChange}
           artikelValue={artikelText}
           onArtikelChange={setArtikelText}
           fileName={thumbnaiName}
-          fileId="create-artikel-thumbnail"
           onSubmit={handleSubmit}
+          fileId="create-artikel-thumbnail"
+          titleValue={state.title}
           titleName="title"
           authorName="author"
           authorValue={state.author}
