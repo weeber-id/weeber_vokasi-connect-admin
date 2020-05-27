@@ -21,11 +21,11 @@ const ArtikelCard = ({
   const [open, setOpen] = useState(false);
   const [isEdit, setEdit] = useState(false);
   const [state, setState] = useState({
-    title: '',
-    author: ''
+    title,
+    author
   });
-  const [fileName, setFileName] = useState('');
-  const [artikelText, setArtikelText] = useState('');
+  const [fileName, setFileName] = useState(thumbnail);
+  const [artikelText, setArtikelText] = useState(content);
 
   useEffect(() => {
     setState({

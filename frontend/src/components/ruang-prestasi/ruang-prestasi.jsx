@@ -10,6 +10,8 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import PrestasiForm from '../prestasi-form/prestasi-form';
 import DeleteMessage from '../delete-message/delete-message';
+import PrestasiCell from './prestasi-cell';
+import Loading from '../loading';
 
 const RuangPrestasi = () => {
   const [prestasi, setPrestasi] = useState([]);
@@ -21,6 +23,7 @@ const RuangPrestasi = () => {
     prestasi: ''
   });
   const [reRender, setRerender] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const urlServer = 'https://api.vokasiconnect.id';
   useEffect(() => {
@@ -72,6 +75,7 @@ const RuangPrestasi = () => {
       jurusan: prodi,
       prestasi
     };
+    setLoading(true);
 
     fetch(`${urlServer}/ruang-prestasi`, {
       method: 'POST',
@@ -84,6 +88,8 @@ const RuangPrestasi = () => {
       .then((data) => {
         console.log(data);
         setRerender(!reRender);
+        alert(data.message);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -99,14 +105,16 @@ const RuangPrestasi = () => {
   };
 
   const handleDelete = (id) => {
+    setLoading(true);
     fetch(`${urlServer}/ruang-prestasi?id=${id}`, {
       method: 'DELETE'
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setRerender(!reRender);
         setOpen(false);
+        alert(data.message);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -116,53 +124,47 @@ const RuangPrestasi = () => {
   };
 
   return (
-    <div className="ruang-prestasi">
-      <PrestasiForm
-        onSubmit={handleSubmit}
-        onChange={handleChange}
-        value={state}
-      />
-      <TableContainer component={Paper}>
-        <Table
-          className={classes.table}
-          size="medium"
-          aria-label="a dense table"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell>Nama</TableCell>
-              <TableCell align="right">Angkatan</TableCell>
-              <TableCell align="right">Prodi</TableCell>
-              <TableCell align="right">Prestasi</TableCell>
-              <TableCell align="right">Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {prestasi?.map((row, i) => (
-              <TableRow key={`prestasi-${row.name}-${i}`}>
-                <TableCell component="th" scope="row">
-                  {row.nama}
-                </TableCell>
-                <TableCell align="right">{row.angkatan}</TableCell>
-                <TableCell align="right">{row.jurusan}</TableCell>
-                <TableCell align="right">{row.prestasi}</TableCell>
-                <TableCell className={classes.action} align="right">
-                  <span>Edit</span>
-                  <span onClick={() => setOpen(true)}>Delete</span>
-                </TableCell>
-                <DeleteMessage
-                  message="Apakah kamu yakin ingin menghapus prestasi ini?"
-                  open={open}
-                  onClose={setOpen}
-                  onCancel={() => setOpen(false)}
-                  onDelete={() => handleDelete(row.id)}
-                />
+    <>
+      {isLoading ? (
+        <Loading message="Processing your request, Please wait..." />
+      ) : null}
+      <div className="ruang-prestasi">
+        <PrestasiForm
+          onSubmit={handleSubmit}
+          onChange={handleChange}
+          value={state}
+        />
+        <TableContainer component={Paper}>
+          <Table
+            className={classes.table}
+            size="medium"
+            aria-label="a dense table"
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell>Nama</TableCell>
+                <TableCell align="right">Angkatan</TableCell>
+                <TableCell align="right">Prodi</TableCell>
+                <TableCell align="right">Prestasi</TableCell>
+                <TableCell align="right">Action</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </div>
+            </TableHead>
+            <TableBody>
+              {prestasi?.map((row) => (
+                <PrestasiCell
+                  {...row}
+                  classes={classes}
+                  key={`prestasi-${row.nama}-${row.id}`}
+                  handleDelete={handleDelete}
+                  reRender={reRender}
+                  setRerender={setRerender}
+                />
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+    </>
   );
 };
 
