@@ -12,10 +12,12 @@ import {
 } from '@material-ui/core';
 
 import AdminList from './admin-list';
+import Loading from '../loading';
 
 const AdminLists = ({ toggleClose }) => {
   const [adminLists, setAdminLists] = useState([]);
   const [reRender, setRerender] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     fetch('https://api.vokasiconnect.id/admin', {
@@ -51,6 +53,9 @@ const AdminLists = ({ toggleClose }) => {
 
   return (
     <>
+      {isLoading ? (
+        <Loading message="Processing your request, please wait..." />
+      ) : null}
       <div
         className="overlay"
         onClick={() => {
@@ -86,6 +91,7 @@ const AdminLists = ({ toggleClose }) => {
                     reRender={reRender}
                     setRerender={setRerender}
                     classes={classes}
+                    setLoading={setLoading}
                   />
                 ))
               )}
