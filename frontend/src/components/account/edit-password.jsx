@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { TextField, Button, makeStyles } from '@material-ui/core';
 import Cookies from 'js-cookie';
+import Loading from '../loading';
 
 const EditPassword = ({ toggleClose }) => {
   const [state, setState] = useState({
     oldPassword: '',
     newPassword: ''
   });
+  const [isLoading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { value, name } = e.target;
@@ -24,7 +26,7 @@ const EditPassword = ({ toggleClose }) => {
 
     body.append('old_password', state.oldPassword);
     body.append('new_password', state.newPassword);
-
+    setLoading(true);
     fetch('https://api.vokasiconnect.id/admin', {
       method: 'PUT',
       body,
@@ -34,13 +36,12 @@ const EditPassword = ({ toggleClose }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         alert(data.message);
         setState({
           oldPassword: '',
           newPassword: ''
         });
-
+        setLoading(false);
         toggleClose(false);
       })
       .catch((err) => {
@@ -74,6 +75,9 @@ const EditPassword = ({ toggleClose }) => {
 
   return (
     <>
+      {isLoading ? (
+        <Loading message="Processing your request, Please wait..." />
+      ) : null}
       <div onClick={() => toggleClose(false)} className="overlay" />
       <form onSubmit={handleSubmit} className="account__edit-password">
         <span className="account__form-label">Edit Password</span>

@@ -8,14 +8,14 @@ import {
   TableRow,
   makeStyles,
   Table,
-  Paper,
   CircularProgress
 } from '@material-ui/core';
-import DeleteMessage from '../delete-message/delete-message';
+
+import AdminList from './admin-list';
 
 const AdminLists = ({ toggleClose }) => {
   const [adminLists, setAdminLists] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [reRender, setRerender] = useState(false);
 
   useEffect(() => {
     fetch('https://api.vokasiconnect.id/admin', {
@@ -27,7 +27,7 @@ const AdminLists = ({ toggleClose }) => {
       .then((data) => {
         setAdminLists(data.data);
       });
-  }, []);
+  }, [reRender]);
 
   const useStyles = makeStyles({
     table: {
@@ -48,6 +48,7 @@ const AdminLists = ({ toggleClose }) => {
   });
 
   const classes = useStyles();
+
   return (
     <>
       <div
@@ -79,24 +80,13 @@ const AdminLists = ({ toggleClose }) => {
                 </TableRow>
               ) : (
                 adminLists?.map((row, i) => (
-                  <TableRow key={`prestasi-${row.username}-${i}`}>
-                    <TableCell component="th" scope="row">
-                      {row.username}
-                    </TableCell>
-                    <TableCell align="center">
-                      {row.role === 1 ? 'Super Administrator' : 'Administrator'}
-                    </TableCell>
-                    <TableCell className={classes.action} align="right">
-                      <span onClick={() => setOpen(true)}>Delete</span>
-                    </TableCell>
-                    <DeleteMessage
-                      message="Apakah kamu yakin ingin menghapus prestasi ini?"
-                      open={open}
-                      onClose={setOpen}
-                      onCancel={() => setOpen(false)}
-                      // onDelete={() => handleDelete(row.id)}
-                    />
-                  </TableRow>
+                  <AdminList
+                    key={`admin-${row.username}-${i}`}
+                    {...row}
+                    reRender={reRender}
+                    setRerender={setRerender}
+                    classes={classes}
+                  />
                 ))
               )}
             </TableBody>

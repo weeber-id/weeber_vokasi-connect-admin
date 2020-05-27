@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import Cookies from 'js-cookie';
-
 import './account.scss';
 import { CircularProgress } from '@material-ui/core';
 import CreateAccount from './create-account';
@@ -58,12 +56,10 @@ const Account = ({ user }) => {
                 onClick={() => {
                   setEditPassword(true);
                 }}
-                className="account__crud-item"
+                className="account__crud-item account__crud-item--span"
               >
                 Edit Password
               </span>
-
-              <span className="account__crud-item">Delete</span>
             </div>
           )}
         </div>

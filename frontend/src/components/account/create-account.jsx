@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 
 import Cookies from 'js-cookie';
 import { TextField, Button, makeStyles } from '@material-ui/core';
+import Loading from '../loading';
 
 const CreateAccount = ({ toggleClose }) => {
   const [state, setState] = useState('');
+  const [isLoading, setLoading] = useState(false);
   const useStyle = makeStyles({
     input: {
       width: '100%',
@@ -42,6 +44,7 @@ const CreateAccount = ({ toggleClose }) => {
     const body = new FormData();
     body.append('username', state);
 
+    setLoading(true);
     fetch('https://api.vokasiconnect.id/admin', {
       method: 'POST',
       headers,
@@ -49,14 +52,15 @@ const CreateAccount = ({ toggleClose }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        alert(data.message);
+        toggleClose(false);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
 
     setState('');
-    toggleClose(false);
   };
 
   const [reverse, setReverse] = useState(false);
@@ -70,6 +74,9 @@ const CreateAccount = ({ toggleClose }) => {
 
   return (
     <>
+      {isLoading ? (
+        <Loading message="Creating an account, Please wait..." />
+      ) : null}
       <div
         onClick={closeAnimation}
         className={`overlay ${reverse ? 'reverse' : ''}`}

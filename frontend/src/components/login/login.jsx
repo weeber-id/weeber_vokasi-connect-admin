@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 
 import './login.scss';
+import Loading from '../loading';
 
 const Login = () => {
   const urlServer = 'https://api.vokasiconnect.id/';
@@ -27,6 +28,7 @@ const Login = () => {
     username: '',
     password: ''
   });
+  const [isLoading, setLoading] = useState(false);
 
   const { username, password } = state;
 
@@ -67,6 +69,8 @@ const Login = () => {
     formdata.append('username', username);
     formdata.append('password', password);
 
+    setLoading(true);
+
     fetch(`${urlServer}admin/login`, {
       method: 'POST',
       body: formdata,
@@ -74,12 +78,16 @@ const Login = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        Cookies.set('access_token', data.access_token);
-
         if (data.message === 'Login success') {
+          alert(data.message);
+          setLoading(false);
+          Cookies.set('access_token', data.access_token);
           history.push('/aspiration-center');
+        } else {
+          alert(data.message);
         }
 
+        setLoading(false);
         window.location.reload();
 
         // Cookies.set('foo', 'bar');
@@ -90,36 +98,39 @@ const Login = () => {
   };
 
   return (
-    <div className="login">
-      <form onSubmit={handleLogin} className="login__container">
-        <div className="header__logo">
-          <Logo className="login__svg" fill="#009975" />{' '}
-          <span style={{ color: '#009975' }}>Vokasi Connect</span>
-        </div>
-        <TextField
-          variant="filled"
-          className={classes.textfield}
-          placeholder="username"
-          label="username"
-          name="username"
-          value={username}
-          onChange={handleChange}
-        />
-        <TextField
-          variant="filled"
-          label="password"
-          className={classes.textfield}
-          placeholder="password"
-          name="password"
-          value={password}
-          onChange={handleChange}
-          type="password"
-        />
-        <Button type="submit" className={classes.button}>
-          Login
-        </Button>
-      </form>
-    </div>
+    <>
+      {isLoading ? <Loading message="Logging in, Please wait..." /> : null}
+      <div className="login">
+        <form onSubmit={handleLogin} className="login__container">
+          <div className="header__logo">
+            <Logo className="login__svg" fill="#009975" />{' '}
+            <span style={{ color: '#009975' }}>Vokasi Connect</span>
+          </div>
+          <TextField
+            variant="filled"
+            className={classes.textfield}
+            placeholder="username"
+            label="username"
+            name="username"
+            value={username}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="filled"
+            label="password"
+            className={classes.textfield}
+            placeholder="password"
+            name="password"
+            value={password}
+            onChange={handleChange}
+            type="password"
+          />
+          <Button type="submit" className={classes.button}>
+            Login
+          </Button>
+        </form>
+      </div>
+    </>
   );
 };
 
