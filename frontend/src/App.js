@@ -27,30 +27,35 @@ function App() {
     const header = new Headers();
     header.append('Authorization', `Bearer ${Cookies.get('access_token')}`);
 
-    fetch(`${urlServer}/admin?mode=self`, {
-      headers: header
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data.data);
+    if (pathname !== '/login') {
+      fetch(`${urlServer}/admin?mode=self`, {
+        headers: header
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((res) => res.json())
+        .then((data) => {
+          setUser(data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
-    fetch(`${urlServer}/admin/check-session`, {
-      headers: header
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.message !== 'session valid') {
-          alert(
-            'Your session already expired, Please login again to gain access token!'
-          );
-          Cookies.remove('access_token');
-          history.push('/login');
-        }
-      });
+      fetch(`${urlServer}/admin/check-session`, {
+        headers: header
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.message !== 'session valid') {
+            alert(
+              'Your session already expired, Please login again to gain access token!'
+            );
+            Cookies.remove('access_token');
+            history.push('/login');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, []);
 
   return (
