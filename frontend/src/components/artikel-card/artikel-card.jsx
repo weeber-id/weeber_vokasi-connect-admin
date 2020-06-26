@@ -77,7 +77,7 @@ const ArtikelCard = ({
     });
 
     setLoading(true);
-    fetch(`${urlServer}/article?=${id}`, {
+    fetch(`${urlServer}/article?id=${id}`, {
       method: 'PUT',
       body,
       headers: {
